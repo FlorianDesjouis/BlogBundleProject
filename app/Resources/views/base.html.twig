@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+    </head>
+    <body>
+        <header class="header" role="heading">
+            <nav role="navigation" class="navigation">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a href="/post">Accueil</a>
+                    <a href="{{ path('fos_user_profile_show') }}">
+                        Profil
+                    </a>
+                    {% if is_granted("ROLE_ADMIN") %}
+                    <a href="/comment">Comment</a> 
+                    {% endif %}
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'Logout'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                    {% else %}
+                        <a href="{{ path('fos_user_security_login') }}">{{ 'login'|trans({}, 'FOSUserBundle') }}</a>
+                        <a href="{{ path('fos_user_registration_register') }}">{{ 'register'|trans({}, 'FOSUserBundle') }}</a>
+                    {% endif %}
+            </nav>
+        </header>
+        {% block body %}{% endblock %}
+    </body>
+</html>
